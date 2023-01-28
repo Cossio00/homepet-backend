@@ -1,7 +1,3 @@
-const Profile = require('./Controller/Service')
-const User = require('./Controller/User')
-const Service = require('./Controller/Service')
-
 const express = require('express');
 const router = require('./routes.js');
 const fs = require('fs');
@@ -9,11 +5,9 @@ const https = require('https');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json());
+app.use(express.json())
 app.use(cors());
 app.use(router);
-
-Service.createTableService();
 
 app.listen(3010, ()=>console.log("API rodando..."))
 https.createServer({
