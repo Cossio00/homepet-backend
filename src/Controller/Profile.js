@@ -1,13 +1,9 @@
-const { openDB } = require('../configDB');
+const { connect } = require('../db');
 
-module.exports={
-    async createTableProfile(){
-        openDB().then(db=>{
-            db.exec(`
-                CREATE TABLE IF NOT EXISTS profile(
-                    profileid INTEGER AUTOINCREMENT PRIMARY KEY,
-                    profilename TEXT
-                )`)
-        })
-    }
+async function getProfiles(){
+    const conn = await connect();
+    return await conn.query(`SELECT * FROM homepet.profile;`); 
 }
+
+
+module.exports= { getProfiles }

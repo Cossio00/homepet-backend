@@ -1,6 +1,14 @@
 const { Router } = require('express');
 
+
 const router = Router();
-const { createTableService } = require('./Controller/Service');
+const { getProfiles } = require('./Controller/Profile');
+const { getUsers, createUser } = require('./Controller/User');
+
+router.get('/profile', getProfiles)
+
+router.get('/user', getUsers)
+router.post('/user', createUser)
+
 
 module.exports = router;
