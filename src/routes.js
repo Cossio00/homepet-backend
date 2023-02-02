@@ -3,7 +3,7 @@ const { Router } = require('express');
 
 const router = Router();
 const { getProfiles } = require('./Controller/Profile');
-const { getUsers, createUser, getUser } = require('./Controller/User');
+const { getUsers, createUser, showUser } = require('./Controller/User');
 
 router.get('/profile', async function(req, res){
     try{
@@ -24,7 +24,7 @@ router.get('/user', async function(req, res){
 
 router.get('/user/:userid', async function(req, res){
     try{
-        res.json(await getUser(req));
+        res.json(await showUser(req));
     } catch(err){
         console.error('Erro ao obter usuário ', err.message);
     }
