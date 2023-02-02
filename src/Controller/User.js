@@ -12,7 +12,7 @@ async function getUser(req, res){
     let { userid } = req.params
     sql = `SELECT * FROM user where userid = ` + userid
     
-    const row = await db.query(`SELECT * FROM user;`); 
+    const row = await db.query(sql); 
     return row; 
 }
 
@@ -26,17 +26,20 @@ async function createUser(req, res){
         useraddress,
         usertype
     } = req.body
-
-    const connection = await connect();
     
-    sql = "INSERT INTO user (username, useremail, userpassword, usercpf, userphone, useraddress, usertype) VALUES ?"
-    value = [[username, useremail, userpassword, usercpf, userphone, useraddress, usertype]]
-
-    connection.query(sql, [value], function(err, result){
-        if(err) throw err;
-        console.log("number of records inserted: "+ result.affectedRows)
-    })
+    sql = `INSERT INTO user (username, useremail, userpassword, usercpf, userphone, useraddress, usertype) 
+            VALUES 
+            ('${username}', '${useremail}', '${userpassword}', '${usercpf}', '${userphone}', '${useraddress}', ${usertype})`;
     
+    const result = await db.query(sql)
+    
+    message = 'Erro ao criar Usuário';
+    
+    if (result.affectedRows) {
+        message = 'Usuário criado com sucesso';
+    }
+
+  return {message};
 }
 
 module.exports= { getUsers, getUser, createUser }

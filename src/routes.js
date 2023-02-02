@@ -30,7 +30,13 @@ router.get('/user/:userid', async function(req, res){
     }
 })
 
-router.post('/user', createUser)
+router.post('/user', async function(req, res){
+    try{
+        res.json(await createUser(req));
+    } catch(err){
+        console.error('Erro ao criar Usuário ', err.message);
+    }
+})
 
 
 module.exports = router;
