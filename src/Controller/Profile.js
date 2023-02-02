@@ -1,8 +1,9 @@
-const { connect } = require('../db');
+const db = require('../dbConfig/db');
 
 async function getProfiles(){
-    const conn = await connect();
-    return await conn.query(`SELECT * FROM homepet.profile;`); 
+
+    const rows = await db.query(`SELECT * FROM homepet.profile`);    
+    return rows;
 }
 
 

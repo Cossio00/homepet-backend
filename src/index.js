@@ -1,5 +1,5 @@
-/*const { getProfiles } = require('./Controller/Profile');
-const { createUser } = require('./Controller/User');
+const { getProfiles } = require('./Controller/Profile');
+const { createUser, getUser } = require('./Controller/User');
 
 (async()=>{
 
@@ -8,6 +8,9 @@ const { createUser } = require('./Controller/User');
     const [perfis] = await getProfiles();
     
     Usuario = {
+        params: {
+            userid: 2
+        },
         body:{
             username: 'Vini',
             useremail: 'Vini',
@@ -20,7 +23,10 @@ const { createUser } = require('./Controller/User');
         }
 
 
-    await createUser(Usuario)
+    //await createUser(Usuario)
+    
+
+    const [perfil] = await getUser(Usuario)
+    console.log(perfil)
 
 })();
-*/

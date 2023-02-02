@@ -1,12 +1,22 @@
-const { connect } = require('../db');
+const db = require('../dbConfig/db');
 
 async function getUsers(){
-    const connection = await connect();
-    return await connection.query(`SELECT * FROM user;`); 
+    
+    const rows = await db.query(`SELECT * FROM user;`); 
+    return rows;
+
+}
+
+async function getUser(req, res){
+    
+    let { userid } = req.params
+    sql = `SELECT * FROM user where userid = ` + userid
+    
+    const row = await db.query(`SELECT * FROM user;`); 
+    return row; 
 }
 
 async function createUser(req, res){
-    console.log(req.body)
     const {
         username,
         useremail,
@@ -26,7 +36,7 @@ async function createUser(req, res){
         if(err) throw err;
         console.log("number of records inserted: "+ result.affectedRows)
     })
-
+    
 }
 
-module.exports= { getUsers, createUser }
+module.exports= { getUsers, getUser, createUser }

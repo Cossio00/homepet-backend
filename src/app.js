@@ -1,17 +1,20 @@
-const express = require('express');
-const router = require('./routes');
+const express = require("express");
+const app = express();
 const fs = require('fs');
 const https = require('https');
-const cors = require('cors');
 
-const app = express();
+const routes = require('./routes');
+
+const port = 3000;
+const httpsPort = 3001;
+
 app.use(express.json());
-app.use(cors());
-app.use(router);
+app.use(routes);
 
-
-app.listen(3010, ()=>console.log("API rodando..."))
+app.listen(port, () => {
+  console.log(`API Rodando na porta: ${port}`);
+});
 https.createServer({
     cert: fs.readFileSync('./src/SSL/code.crt'),
     key: fs.readFileSync('./src/SSL/code.key')
-}, app).listen(3001, ()=> console.log("Rodando em HTTPS..."));
+}, app).listen(httpsPort, ()=> console.log(`Rodando em HTTPS na rota ${httpsPort}`));
