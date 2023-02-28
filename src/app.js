@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const fs = require('fs');
 const https = require('https');
-
+const cors = require('cors');
 const routes = require('./routes');
-
-const port = 3000;
-const httpsPort = 3001;
+const port = 3010;
+const httpsPort = 3011;
 
 app.use(express.json());
+app.use(cors());
 app.use(routes);
 
 app.listen(port, () => {

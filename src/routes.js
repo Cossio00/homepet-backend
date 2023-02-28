@@ -1,9 +1,9 @@
 const { Router } = require('express');
-
-
 const router = Router();
 const { getProfiles } = require('./Controller/Profile');
-const { getUsers, createUser, showUser } = require('./Controller/User');
+const { getUsers, createUser, showUser, userLogin, userLogout } = require('./Controller/User');
+
+const verifyJWT = require('./auth');
 
 router.get('/profile', async function(req, res){
     try{
@@ -14,7 +14,7 @@ router.get('/profile', async function(req, res){
 })
 
 
-router.get('/user', async function(req, res){
+router.get('/user', verifyJWT, async function(req, res){
     try{
         res.json(await getUsers());
     } catch(err){
@@ -32,9 +32,25 @@ router.get('/user/:userid', async function(req, res){
 
 router.post('/user', async function(req, res){
     try{
-        res.json(await createUser(req));
+        res.json(await createUser(req, res));
     } catch(err){
         console.error('Erro ao criar Usuário ', err.message);
+    }
+})
+
+router.post('/login', async function(req, res){
+    try{
+        res.json(await userLogin(req, res)); 
+    } catch(err){
+        console.error('Erro ao realizar login: ', err.message);
+    }
+})
+
+router.post('/logout', async function(req, res){
+    try{
+        res.json(await userLogout(req, res));
+    } catch(err){
+        console.error('Erro ao realizar logout: ', err,message);
     }
 })
 
