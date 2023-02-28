@@ -90,7 +90,7 @@ async function createUser(req, res){
         const [emailQuantity, ] = await db.query(sqlSelect);
         if(emailQuantity['COUNT(*)'] > 0) throw err;
     }catch(err){
-        res.status(404).json({message: 'USER_EMAIL_ALREADY_EXISTS'}).message('USER_EMAIL_ALREADY_EXISTS');
+        res.status(404).json({message: 'USER_EMAIL_ALREADY_EXISTS'});
     }finally{
         
         const result = await db.query(sql)
@@ -105,6 +105,41 @@ async function createUser(req, res){
     }
 }
 
+async function updateUser(req, res){
+
+    const {
+        username,
+        usercpf,
+        userphone,
+        useraddress,
+        usertype
+    } = req.body
+
+    const userid = req.params['userid'];
+
+    sql = `UPDATE user
+            SET username = '${username}', usercpf = '${usercpf}', userphone = '${userphone}', useraddress = '${useraddress}', usertype = ${usertype}
+            WHERE userid = ${userid};`;
+
+    try{
+        await db.query(sql);
+    }catch(err){
+        res.status(404).json({message: 'INVALID_DATA'})
+    }finally{
+        
+        message = 'Usuário atualizado com sucesso';
+        return {message};
+
+    }
+
+
+}
+
+
+
+
+
+//------------------------------------ Login and Logout
 async function userLogin(req, res){
     const {
         useremail,
@@ -137,4 +172,4 @@ async function userLogout(req, res){
     res.json({auth: false, token: null});
 }
 
-module.exports= { getUsers, getUser, showUser, createUser, userLogin, userLogout }
+module.exports= { getUsers, getUser, showUser, createUser, updateUser, userLogin, userLogout }

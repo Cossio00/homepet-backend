@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { getProfiles } = require('./Controller/Profile');
-const { getUsers, createUser, showUser, userLogin, userLogout } = require('./Controller/User');
+const { getUsers, createUser, showUser, userLogin, userLogout, updateUser } = require('./Controller/User');
 
 const verifyJWT = require('./auth');
 
@@ -36,6 +36,15 @@ router.post('/user', async function(req, res){
     } catch(err){
         console.error('Erro ao criar Usuário ', err.message);
     }
+})
+
+router.put('/user/:userid', verifyJWT, async function(req, res){
+    try{
+        res.json(await updateUser(req, res));
+    } catch(err){
+        console.error('Erro ao atualizar informações do usuário ', err.message);
+    }
+
 })
 
 router.post('/login', async function(req, res){
