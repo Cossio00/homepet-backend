@@ -25,7 +25,7 @@ async function getUser(req, res){
 async function showUser(req, res){
     
     let { userid } = req.params
-    sql = `SELECT username, useremail, userphone, usertype FROM user where userid = ` + userid
+    sql = `SELECT username, useremail, usercpf, userphone, useraddress, usertype FROM user where userid = ` + userid
     
     const row = await db.query(sql); 
     return row; 
@@ -131,7 +131,6 @@ async function updateUser(req, res){
         return {message};
 
     }
-
 
 }
 

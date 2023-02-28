@@ -22,9 +22,9 @@ router.get('/user', verifyJWT, async function(req, res){
     }
 })
 
-router.get('/user/:userid', async function(req, res){
+router.get('/user/:userid', verifyJWT, async function(req, res){
     try{
-        res.json(await showUser(req));
+        res.json(await showUser(req, res));
     } catch(err){
         console.error('Erro ao obter usuário ', err.message);
     }
